@@ -23,7 +23,6 @@ return new class extends Migration
             $table->unsignedBigInteger('captain_id');
             $table->foreign('coach_id')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreign('captain_id')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
-
             $table->timestamps();
         });
     }

@@ -5,6 +5,7 @@ namespace Modules\Club\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Club\Entities\team;
 
 class TeamController extends Controller
 {
@@ -14,7 +15,9 @@ class TeamController extends Controller
      */
     public function index()
     {
-        return view('club::index');
+        $teams=team::with('captain','coach','sportType')->get();
+
+        return view('club::Team.index',compact('teams'));
     }
 
     /**

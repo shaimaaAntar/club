@@ -26,10 +26,13 @@ class user extends Model
     }
 
 
+
     public function player(): HasOne
     {
         return $this->hasOne(player::class);
     }
+
+
 
 
 
