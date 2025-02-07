@@ -9,13 +9,14 @@
                 @if(session('error_catch'))
                     <div class="bg-danger">{{session('error_catch')}}</div>
                 @endif
-                <form action="{{route('roles.update'),$role->id}}" method="post" enctype="multipart/form-data">
+                <form action="{{route('sportTypes.update',$sportType->id)}}" method="post" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
                     <div class="row">
                         <div class="col">
                             <label for="name">name</label>
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control @error('name') is-invalid @enderror" value="{{$role->name}}" name="name">
+                                <input type="text" class="form-control @error('name') is-invalid @enderror" value="{{$sportType->name}}" name="name">
                             </div>
                             @error('name')
                             <div class="alert alert-danger">{{ $message }}</div>

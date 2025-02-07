@@ -11,7 +11,7 @@ class sports_properties_value extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['*'];
+    protected $guarded = [];
 
     public function userable(): MorphTo
     {

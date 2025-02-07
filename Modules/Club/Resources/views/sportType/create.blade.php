@@ -9,7 +9,7 @@
                 @if(session('error_catch'))
                     <div class="bg-danger">{{session('error_catch')}}</div>
                 @endif
-                <form action="{{route('roles.store')}}" method="post" enctype="multipart/form-data">
+                <form action="{{route('sportTypes.store')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col">

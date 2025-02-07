@@ -7,17 +7,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 
 class team extends Model
 {
 
 
-
-
     use HasFactory;
 
-    protected $fillable = ['*'];
+    protected $guarded = [];
+
 //    protected $hidden=['created_at','updated_at'];
 
 
@@ -27,11 +27,29 @@ class team extends Model
     }
 
 
-
     public function players(): HasMany
     {
         return $this->hasMany(player::class);
     }
+
+    public function coach(): HasOne
+    {
+        return $this->hasOne(user::class, 'coach_id' );
+    }
+    public function captain(): HasOne
+    {
+        return $this->hasOne(user::class, 'captain_id' );
+    }
+    public function sportType() :belongsTo
+    {
+        return $this->belongsTo( sportType::class);
+    }
+
+
+
+
+
+
 
     protected static function newFactory()
     {

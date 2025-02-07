@@ -5,6 +5,7 @@ namespace Modules\Club\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Club\Entities\sportType;
 
 class SportTypeController extends Controller
 {
@@ -14,7 +15,8 @@ class SportTypeController extends Controller
      */
     public function index()
     {
-        return view('club::index');
+        $sportTypes=sporttype::all();
+        return view('club::sportType.index',compact('sportTypes'));
     }
 
     /**
@@ -23,7 +25,7 @@ class SportTypeController extends Controller
      */
     public function create()
     {
-        return view('club::create');
+        return view('club::sportType.create');
     }
 
     /**
@@ -33,7 +35,14 @@ class SportTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated=$request->validate([
+            'name'=>'required |unique:sportTypes'
+        ]);
+        $sportType=new sportType();
+        $sportType->name =$request->name;
+        $sportType->save();
+        toastr()->success('Data has been saved successfully!');
+        return redirect()->route('sportTypes.index');
     }
 
     /**
@@ -53,7 +62,9 @@ class SportTypeController extends Controller
      */
     public function edit($id)
     {
-        return view('club::edit');
+        $sportType=sportType::find($id);
+
+        return view('club::sportType.edit',compact('sportType'));
     }
 
     /**
@@ -64,7 +75,17 @@ class SportTypeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $validated=$request->validate([
+            'name'=>'required |unique:roles'
+        ]);
+        $sportType=sportType::find($id);
+        $sportType->update([
+            'name'=>$request->name
+        ]);
+        toastr()->success('Data has been updated successfully!');
+        return redirect()->route('sportTypes.index');
+
     }
 
     /**
@@ -74,6 +95,11 @@ class SportTypeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $sportType=sportType::find($id);
+        $sportType->delete();
+
+        return redirect()->route('sportTypes.index');
+
     }
+
 }

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class user extends Model
 {
@@ -22,6 +23,12 @@ class user extends Model
 
     public function role(){
         return $this->belongsTo(role::class);
+    }
+
+
+    public function player(): HasOne
+    {
+        return $this->hasOne(player::class);
     }
 
 
