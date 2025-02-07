@@ -5,6 +5,7 @@ namespace Modules\Club\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Club\Entities\role;
 
 class RoleController extends Controller
 {
@@ -14,7 +15,8 @@ class RoleController extends Controller
      */
     public function index()
     {
-        return view('club::index');
+          $roles=role::all();
+        return view('club::Role.index',compact('roles'));
     }
 
     /**
@@ -23,7 +25,8 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return view('club::create');
+
+        return view('club::Role.create');
     }
 
     /**
@@ -33,17 +36,14 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
-
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function show($id)
-    {
-        return view('club::show');
+        $validated=$request->validate([
+            'name'=>'required |unique:roles'
+        ]);
+            $role=new role();
+            $role->name =$request->name;
+            $role->save();
+            toastr()->success('Data has been saved successfully!');
+            return redirect()->route('roles.index');
     }
 
     /**
@@ -53,7 +53,9 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        return view('club::edit');
+        $role=role::find($id);
+
+        return view('club::Role.edit',compact('role'));
     }
 
     /**
@@ -64,7 +66,16 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validated=$request->validate([
+            'name'=>'required |unique:roles'
+        ]);
+        $role=role::find($id);
+        $role->update([
+            'name'=>$request->name
+        ]);
+        toastr()->success('Data has been updated successfully!');
+        return redirect()->route('roles.index');
+
     }
 
     /**
@@ -74,6 +85,8 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $role=role::find($id);
+        $role->delete();
+        return redirect()->route('roles.index')->with(['messege','delete success']);
     }
 }

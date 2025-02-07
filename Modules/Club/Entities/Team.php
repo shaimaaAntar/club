@@ -28,19 +28,10 @@ class team extends Model
 
 
 
-    public function users(): HasMany
+    public function players(): HasMany
     {
-        return $this->hasMany(user::class);
+        return $this->hasMany(player::class);
     }
-    public function coach():hasone
-    {
-        return $this->hasOne(user::class,'coach_id');
-    }
-    public function captain():hasone
-    {
-        return $this->hasOne(user::class,'captain_id');
-    }
-
 
     protected static function newFactory()
     {

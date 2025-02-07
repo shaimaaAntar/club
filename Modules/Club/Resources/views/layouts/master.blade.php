@@ -1,19 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Module Club</title>
+<html>
 
-       {{-- Laravel Vite - CSS File --}}
-       {{-- {{ module_vite('build-club', 'Resources/assets/sass/app.scss') }} --}}
+@include('club::layouts.head')
+<body class="hold-transition sidebar-mini layout-fixed">
 
-    </head>
-    <body>
-        @yield('content')
+@include('club::layouts.header')
+@include('club::layouts.sidebar')
 
-        {{-- Laravel Vite - JS File --}}
-        {{-- {{ module_vite('build-club', 'Resources/assets/js/app.js') }} --}}
-    </body>
+<div class="wrapper">
+    <section class="content">
+        <div class="container-fluid">
+            <div class="card">
+
+                <!-- Main content -->
+            @yield('content')
+            <!-- /.content -->
+            </div>
+        </div>
+    </section>
+    {{--@yield('content')--}}
+</div>
+
+@include('club::layouts.scripts')
+
+</body>
 </html>

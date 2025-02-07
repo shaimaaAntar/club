@@ -5,6 +5,9 @@ namespace Modules\Club\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Club\Entities\role;
+use Modules\Club\Entities\user;
+use Modules\Club\Http\Requests\UserRequest;
 
 class UserController extends Controller
 {
@@ -14,7 +17,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('club::index');
+        $users=user::with('role')->get();
+        return view('club::user.index',compact('users'));
     }
 
     /**
@@ -23,7 +27,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('club::create');
+        $roles=role::all();
+        return view('club::user.create',compact('roles'));
     }
 
     /**
@@ -31,19 +36,19 @@ class UserController extends Controller
      * @param Request $request
      * @return Renderable
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        //
-    }
-
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function show($id)
-    {
-        return view('club::show');
+        $validate = $request->validated();
+        $user=new user();
+        $user->fullName=$request->fullName;
+        $user->email=$request->email;
+        $user->password=encrypt($request->password) ;
+        $user->role_id=$request->role;
+        $user->status=$request->status;
+        $user->age=$request->age;
+        $user->save();
+        toastr()->success('Data has been saved successfully!');
+        return redirect()->route('users.index');
     }
 
     /**
@@ -53,7 +58,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        return view('club::edit');
+        $user=user::find($id);
+        $roles=role::all();
+        return view('club::user.edit',compact('user','roles'));
     }
 
     /**
@@ -62,9 +69,19 @@ class UserController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, $id)
     {
-        //
+        $user=user::find($id);
+        $user->update([
+            'fullName'=>$request->fullName,
+            'email'=>$request->email,
+            'password'=>$request->password,
+            'age'=>$request->age,
+            'status'=>$request->status,
+            'role_id'=>$request->role,
+        ]);
+        toastr()->success('updated');
+        return redirect()->route('users.index');
     }
 
     /**
@@ -74,6 +91,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user=user::find($id);
+        $user->delete();
+        toastr()->success('Deleted');
+        return redirect()->back();
     }
 }
