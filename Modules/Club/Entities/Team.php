@@ -34,11 +34,11 @@ class team extends Model
 
     public function coach(): HasOne
     {
-        return $this->hasOne(user::class, 'coach_id' );
+        return $this->hasOne(user::class, 'id' );
     }
     public function captain(): HasOne
     {
-        return $this->hasOne(user::class, 'captain_id' );
+        return $this->hasOne(user::class, 'id' );
     }
     public function sportType() :belongsTo
     {
